@@ -44,7 +44,8 @@ and this project adheres to
   improve error response ([#2358]).
 - Improved HTTP requests handling and timeouts ([#2343]).
 - Our snap package now uses the `core20` image as its base ([#2306]).
-- Various internal improvements ([#2267], [#2271], [#2297]).
+- New build system and various internal improvements ([#2267], [#2271],
+  [#2297]).
 
 [#2231]: https://github.com/AdguardTeam/AdGuardHome/issues/2231
 [#2267]: https://github.com/AdguardTeam/AdGuardHome/issues/2267

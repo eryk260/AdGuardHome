@@ -1,13 +1,25 @@
 #!/bin/sh
 
+verbose="${VERBOSE:-0}"
+
 # Verbosity levels:
 #   0 = Don't print anything except for errors.
 #   1 = Print commands, but not nested commands.
 #   2 = Print everything.
-test "${VERBOSE:=0}" -gt '0' && set -x
+if [ "$verbose" -gt '0' ]
+then
+	set -x
+fi
+
+exit_on_error="${EXITONERROR:-1}"
 
 # Set $EXITONERROR to zero to see all errors.
-test "${EXITONERROR:=1}" = '0' && set +e || set -e
+if [ "$exitonerror" = '0' ]
+then
+	set +e
+else
+	set -e
+fi
 
 # We don't need glob expansions and we want to see errors about unset
 # variables.

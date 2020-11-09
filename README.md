@@ -178,7 +178,7 @@ Open Terminal and execute these commands:
 ```bash
 git clone https://github.com/AdguardTeam/AdGuardHome
 cd AdGuardHome
-make
+make deps build
 ```
 
 Check the [`Makefile`](https://github.com/AdguardTeam/AdGuardHome/blob/master/Makefile) to learn about other commands.
@@ -188,26 +188,28 @@ In order to do this, specify `GOOS` and `GOARCH` env variables before running ma
 
 For example:
 ```
-GOOS=linux GOARCH=arm64 make
+env GOOS='linux' GOARCH='arm64' make build
+```
+Or:
+```
+make GOOS='linux' GOARCH='arm64' build
 ```
 
 #### Preparing release
 
 You'll need this to prepare a release build:
 
-* [goreleaser](https://goreleaser.com/)
 * [snapcraft](https://snapcraft.io/)
 
 Commands:
 
-* `make release` - builds a snapshot build (CHANNEL=edge)
-* `CHANNEL=beta make release` - builds beta version, tag is mandatory.
-* `CHANNEL=release make release` - builds release version, tag is mandatory.
+```
+make build-release CHANNEL='...' VERSION='...'
+```
 
 #### Docker image
 
-* Run `make docker` to build the Docker image locally.
-* Run `make docker-multi-arch` to build the multi-arch Docker image (the one that we publish to Docker Hub).
+* Run `make build-docker` to build the Docker image locally (the one that we publish to DockerHub).
 
 Please note, that we're using [Docker Buildx](https://docs.docker.com/buildx/working-with-buildx/) to build our official image.
 

@@ -172,9 +172,14 @@ The rules are mostly sorted in the alphabetical order.
  *  Put utility flags in the ASCII order and **don't** group them together.  For
     example, `ls -1 -A -q`.
 
- *  `snake_case`, not `camelCase`.
+ *  `snake_case`, not `camelCase` for variables.  `kebab-case` for filenames.
+
+ *  UPPERCASE names for external exported variables, lowercase for local,
+    unexported ones.
 
  *  Use `set -e -f -u` and also `set -x` in verbose mode.
+
+ *  Use `readonly` liberally.
 
  *  Use the `"$var"` form instead of the `$var` form, unless word splitting is
     required.

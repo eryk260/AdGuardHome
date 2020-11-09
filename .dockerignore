@@ -13,7 +13,6 @@
 /client/node_modules
 /.gitattributes
 /.gitignore
-/.goreleaser.yml
 /changelog.config.js
 /coverage.txt
 /Dockerfile

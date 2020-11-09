@@ -1,6 +1,4 @@
-# Snap GUI
+# Snap GUI Files
 
-These files are added to the AdGuard Home snap in order to add an app icon:
-https://github.com/AdguardTeam/AdGuardHome/pull/1836
-
-See .goreleaser.yml: snapcrafts.extra_files
+These files are added to the _AdGuardHome_ snap in order to add an app icon.
+See https://github.com/AdguardTeam/AdGuardHome/pull/1836.
