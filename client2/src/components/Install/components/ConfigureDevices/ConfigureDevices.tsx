@@ -24,6 +24,7 @@ const ConfigureDevices: FC<ConfigureDevicesProps> = ({
     const { ui: { intl } } = useContext(Store);
 
     const dhcp = (e: string) => (
+        // TODO: link to dhcp
         <a href="http://" target="_blank" rel="noopener noreferrer">{e}</a>
     );
 
@@ -48,27 +49,28 @@ const ConfigureDevices: FC<ConfigureDevicesProps> = ({
                 </TabPane>
                 <TabPane tab="Windows" key="2">
                     <div className={cn(theme.typo.text, theme.typo.text_base)}>
-                        {intl.getMessage('install_configure_router', { p })}
+                        {intl.getMessage('install_configure_windows', { p })}
                     </div>
                 </TabPane>
                 <TabPane tab="Macos" key="3">
                     <div className={cn(theme.typo.text, theme.typo.text_base)}>
-                        {intl.getMessage('install_configure_router', { p })}
+                        {intl.getMessage('install_configure_macos', { p })}
                     </div>
                 </TabPane>
                 <TabPane tab="Linux" key="4">
                     <div className={cn(theme.typo.text, theme.typo.text_base)}>
+                        {/* TODO: add linux setup */}
                         {intl.getMessage('install_configure_router', { p })}
                     </div>
                 </TabPane>
                 <TabPane tab="Android" key="5">
                     <div className={cn(theme.typo.text, theme.typo.text_base)}>
-                        {intl.getMessage('install_configure_router', { p })}
+                        {intl.getMessage('install_configure_android', { p })}
                     </div>
                 </TabPane>
                 <TabPane tab="iOs" key="6">
                     <div className={cn(theme.typo.text, theme.typo.text_base)}>
-                        {intl.getMessage('install_configure_router', { p })}
+                        {intl.getMessage('install_configure_ios', { p })}
                     </div>
                 </TabPane>
             </Tabs>
@@ -82,7 +84,11 @@ const ConfigureDevices: FC<ConfigureDevicesProps> = ({
             <div className={cn(theme.typo.text, theme.typo.text_base)}>
                 {intl.getMessage('install_configure_dhcp', { dhcp })}
             </div>
-            <StepButtons setFieldValue={setFieldValue} currentStep={4} />
+            <StepButtons
+                setFieldValue={setFieldValue}
+                currentStep={4}
+                values={values}
+            />
         </div>
     );
 };

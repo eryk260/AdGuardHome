@@ -27,9 +27,9 @@ export type FormValues = IInitialConfiguration & { step: number };
 
 const InstallForm: FC = observer(() => {
     const initialValues: FormValues = {
-        step: 4,
+        step: 0,
         web: {
-            ip: DEFAULT_IP_ADDRESS,
+            ip: [DEFAULT_IP_ADDRESS],
             port: DEFAULT_IP_PORT,
         },
         dns: {

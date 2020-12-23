@@ -46,7 +46,11 @@ const Auth: FC<AuthProps> = observer(({
                 value={values.password}
                 onChange={(v) => setFieldValue('password', v)}
             />
-            <StepButtons setFieldValue={setFieldValue} currentStep={2} />
+            <StepButtons
+                setFieldValue={setFieldValue}
+                currentStep={2}
+                values={values}
+            />
         </div>
     );
 });

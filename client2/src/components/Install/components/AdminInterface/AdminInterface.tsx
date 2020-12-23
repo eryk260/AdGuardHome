@@ -28,13 +28,13 @@ const AdminInterface: FC<AdminInterfaceProps> = observer(({
     setFieldValue,
 }) => {
     const { ui: { intl }, install: { addresses } } = useContext(Store);
-
-    const radioValue = values.web?.ip === DEFAULT_IP_ADDRESS
+    const { web: { ip } } = values;
+    const radioValue = ip.length === 1 && ip[0] === DEFAULT_IP_ADDRESS
         ? NETWORK_OPTIONS.ALL : NETWORK_OPTIONS.CUSTOM;
 
     const onSelectRadio = (v: string | number) => {
         const value = v === NETWORK_OPTIONS.ALL
-            ? DEFAULT_IP_ADDRESS : v;
+            ? [DEFAULT_IP_ADDRESS] : [];
         setFieldValue('web.ip', value);
     };
 
@@ -55,21 +55,27 @@ const AdminInterface: FC<AdminInterfaceProps> = observer(({
                         break;
                 }
                 const currentIp = a.ipAddresses ? a.ipAddresses[0] : '';
-                const isChecked = values.web.ip === currentIp;
+                const isChecked = values.web.ip.includes(currentIp);
                 return (
                     <div key={a.name} className={s.manualOption}>
                         <div>
                             <div>
                                 {name}
                             </div>
-                            {a.ipAddresses?.map((ip) => (
-                                <div className={theme.typo.subtext} key={ip}>
-                                    http://{ip}
+                            {a.ipAddresses?.map((addrIp) => (
+                                <div className={theme.typo.subtext} key={addrIp}>
+                                    http://{addrIp}
                                 </div>
                             ))}
                         </div>
-                        <Switch checked={isChecked} onChange={(e) => {
-                            setFieldValue('web.ip', e ? currentIp : NETWORK_OPTIONS.CUSTOM);
+                        <Switch checked={isChecked} onChange={() => {
+                            const temp = new Set(ip);
+                            if (temp.has(currentIp)) {
+                                temp.delete(currentIp);
+                            } else {
+                                temp.add(currentIp);
+                            }
+                            setFieldValue('web.ip', Array.from(temp.values()));
                         }}/>
                     </div>
                 );
@@ -117,12 +123,19 @@ const AdminInterface: FC<AdminInterfaceProps> = observer(({
             <Input
                 label={`${intl.getMessage('port')}:`}
                 placeholder={intl.getMessage('port')}
-                type="text"
+                type="number"
                 name="webPort"
                 value={values.web.port}
-                onChange={(v) => setFieldValue('web.port', v)}
+                onChange={(v) => {
+                    const port = v === '' ? '' : Number(v);
+                    setFieldValue('web.port', port);
+                }}
             />
-            <StepButtons setFieldValue={setFieldValue} currentStep={1} />
+            <StepButtons
+                setFieldValue={setFieldValue}
+                currentStep={1}
+                values={values}
+            />
         </div>
     );
 });

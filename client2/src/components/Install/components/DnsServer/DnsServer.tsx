@@ -122,7 +122,11 @@ const DnsServer: FC<DnsServerProps> = observer(({
                 value={values.dns.port}
                 onChange={(v) => setFieldValue('dns.port', v)}
             />
-            <StepButtons setFieldValue={setFieldValue} currentStep={3} />
+            <StepButtons
+                setFieldValue={setFieldValue}
+                currentStep={3}
+                values={values}
+            />
         </div>
     );
 });
