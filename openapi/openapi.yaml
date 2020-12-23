@@ -2100,7 +2100,7 @@
         'dns':
           '$ref': '#/components/schemas/CheckConfigRequestInfo'
         'web':
-          '$ref': '#/components/schemas/CheckConfigRequestInfo'
+          '$ref': '#/components/schemas/CheckConfigRequestWebInfo'
         'set_static_ip':
           'type': 'boolean'
           'example': false
@@ -2110,6 +2110,23 @@
         'ip':
           'type': 'string'
           'example': '127.0.0.1'
+        'port':
+          'type': 'integer'
+          'format': 'int32'
+          'example': 53
+        'autofix':
+          'type': 'boolean'
+          'example': false
+    'CheckConfigRequestWebInfo':
+      'type': 'object'
+      'properties':
+        'ip':
+          'type': 'array'
+          'items':
+            'type': 'string'
+          'minItems': 1
+          'example':
+          - '127.0.0.1'
         'port':
           'type': 'integer'
           'format': 'int32'
