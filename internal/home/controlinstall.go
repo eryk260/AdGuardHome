@@ -66,15 +66,21 @@ func (web *Web) handleInstallGetAddresses(w http.ResponseWriter, r *http.Request
 	}
 }
 
-type checkConfigReqEnt struct {
+type checkConfigReqWeb struct {
+	Port    int      `json:"port"`
+	IP      []string `json:"ip"`
+	Autofix bool     `json:"autofix"`
+}
+
+type checkConfigReqDNS struct {
 	Port    int    `json:"port"`
 	IP      string `json:"ip"`
 	Autofix bool   `json:"autofix"`
 }
 
 type checkConfigReq struct {
-	Web         checkConfigReqEnt `json:"web"`
-	DNS         checkConfigReqEnt `json:"dns"`
+	Web         checkConfigReqWeb `json:"web"`
+	DNS         checkConfigReqDNS `json:"dns"`
 	SetStaticIP bool              `json:"set_static_ip"`
 }
 
@@ -106,9 +112,12 @@ func (web *Web) handleInstallCheckConfig(w http.ResponseWriter, r *http.Request)
 	}
 
 	if reqData.Web.Port != 0 && reqData.Web.Port != config.BindPort && reqData.Web.Port != config.BetaBindPort {
-		err = util.CheckPortAvailable(reqData.Web.IP, reqData.Web.Port)
-		if err != nil {
-			respData.Web.Status = fmt.Sprintf("%v", err)
+		for _, ip := range reqData.Web.IP {
+			err = util.CheckPortAvailable(ip, reqData.Web.Port)
+			if err != nil {
+				respData.Web.Status = fmt.Sprintf("%v", err)
+				break
+			}
 		}
 	}
 
