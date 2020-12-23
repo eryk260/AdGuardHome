@@ -117,10 +117,13 @@ const DnsServer: FC<DnsServerProps> = observer(({
             <Input
                 label={`${intl.getMessage('port')}:`}
                 placeholder={intl.getMessage('port')}
-                type="text"
+                type="number"
                 name="webPort"
                 value={values.dns.port}
-                onChange={(v) => setFieldValue('dns.port', v)}
+                onChange={(v) => {
+                    const port = v === '' ? '' : parseInt(v, 10);
+                    setFieldValue('dns.port', port);
+                }}
             />
             <StepButtons
                 setFieldValue={setFieldValue}

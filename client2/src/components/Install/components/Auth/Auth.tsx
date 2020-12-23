@@ -3,9 +3,7 @@ import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { FormikHelpers } from 'formik';
 
-import { Input, Radio, Switch } from 'Common/controls';
-import { DEFAULT_IP_ADDRESS } from 'Consts/install';
-import { chechNetworkType, NETWORK_TYPE } from 'Helpers/installHelpers';
+import { Input } from 'Common/controls';
 import theme from 'Lib/theme';
 import Store from 'Store/installStore';
 

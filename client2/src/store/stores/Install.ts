@@ -2,6 +2,7 @@ import InstallApi from 'Apis/install';
 import AddressesInfo, { IAddressesInfo } from 'Entities/AddressesInfo';
 import { ICheckConfigRequest } from 'Entities/CheckConfigRequest';
 import CheckConfigResponse, { ICheckConfigResponse } from 'Entities/CheckConfigResponse';
+import { IInitialConfiguration } from 'Entities/InitialConfiguration';
 import { errorChecker } from 'Helpers/apiHelpers';
 import { flow, makeAutoObservable } from 'mobx';
 
@@ -36,6 +37,14 @@ export default class Install {
         const { result } = errorChecker<ICheckConfigResponse>(response);
         if (result) {
             return new CheckConfigResponse(result);
+        }
+    }
+
+    static async configure(config: IInitialConfiguration) {
+        const response = await InstallApi.installConfigure(config);
+        const { result } = errorChecker<number>(response);
+        if (result) {
+            return true;
         }
     }
 }

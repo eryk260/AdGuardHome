@@ -2,12 +2,9 @@ import React, { FC, FocusEvent, KeyboardEvent, ClipboardEvent, ChangeEvent, useS
 import { Input as InputControl } from 'antd';
 import { InputProps as InputControlProps } from 'antd/lib/input';
 import cn from 'classnames';
-import { observer } from 'mobx-react-lite';
 
 import { Icon } from 'Common/ui';
 import theme from 'Lib/theme';
-
-import s from './Input.module.pcss';
 
 interface AdminInterfaceProps {
     autoComplete?: InputControlProps['autoComplete'];

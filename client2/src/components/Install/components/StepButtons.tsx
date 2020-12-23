@@ -24,9 +24,6 @@ const StepButtons: FC<StepButtonsProps> = observer(({
 }) => {
     const { ui: { intl } } = useContext(Store);
     const onNext = async () => {
-        const check = await Install.checkConfig({
-            ...values, web: { ...values.web, ip: values.web.ip[0] },
-        });
         const checker = (condition: boolean, message: string) => {
             if (condition) {
                 setFieldValue('step', currentStep + 1);
@@ -38,12 +35,23 @@ const StepButtons: FC<StepButtonsProps> = observer(({
         switch (currentStep) {
             case 1: {
                 // web
+                const check = await Install.checkConfig(values);
                 checker(check?.web?.status === '', check?.web?.status || '');
                 break;
             }
             case 3: {
                 // dns
+                const check = await Install.checkConfig(values);
                 checker(check?.dns?.status === '', check?.dns?.status || '');
+                break;
+            }
+            case 4: {
+                // configure
+                const config = await Install.configure(values);
+                if (config) {
+                    const { web } = values;
+                    window.location.href = `http://${web.ip[0]}:${web.port}`;
+                }
                 break;
             }
             default:

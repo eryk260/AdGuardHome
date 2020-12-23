@@ -79,7 +79,16 @@ const ConfigureDevices: FC<ConfigureDevicesProps> = ({
                 {intl.getMessage('install_configure_adresses')}
             </div>
             <div className={cn(theme.typo.text, theme.typo.text_base)}>
-                {intl.getMessage('')}
+                <p>
+                    {intl.getMessage('install_admin_interface_title')}
+                </p>
+                {values.web.ip.map((ip) => (
+                    <div key={ip}>{ip}:{values.web.port}</div>
+                ))}
+                <p>
+                    {intl.getMessage('install_dns_server_title')}
+                </p>
+                <div>{values.dns.ip}:{values.dns.port}</div>
             </div>
             <div className={cn(theme.typo.text, theme.typo.text_base)}>
                 {intl.getMessage('install_configure_dhcp', { dhcp })}

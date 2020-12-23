@@ -127,7 +127,7 @@ const AdminInterface: FC<AdminInterfaceProps> = observer(({
                 name="webPort"
                 value={values.web.port}
                 onChange={(v) => {
-                    const port = v === '' ? '' : Number(v);
+                    const port = v === '' ? '' : parseInt(v, 10);
                     setFieldValue('web.port', port);
                 }}
             />
