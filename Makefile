@@ -11,8 +11,8 @@ GO = go
 # TODO(a.garipov): Add more default proxies using pipes after update to
 # Go 1.15.
 #
-# GOPROXY = https://goproxy.io|https://athens.azurefd.net
-GOPROXY = https://athens.azurefd.net
+# GOPROXY = https://goproxy.io|https://goproxy.cn
+GOPROXY = https://goproxy.cn,https://goproxy.io,direct
 GPG_KEY_PASSPHRASE = not-a-real-password
 NPM = npm
 NPM_FLAGS = --prefix $(CLIENT_DIR)
@@ -55,7 +55,7 @@ js-lint:  ; $(NPM) $(NPM_FLAGS) run lint
 js-test:  ; $(NPM) $(NPM_FLAGS) run test
 
 go-build: ; $(ENV) $(SHELL) ./scripts/go-build.sh
-go-deps:  ; $(ENV) $(GO) mod download
+go-deps:  ; $(ENV) $(SHELL) ./scripts/go-deps.sh
 go-gen:   ; $(ENV) $(GO) generate ./...
 go-lint:  ; $(ENV) $(SHELL) ./scripts/go-lint.sh
 go-test:  ; $(ENV) $(SHELL) ./scripts/go-test.sh

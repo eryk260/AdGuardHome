@@ -13,7 +13,7 @@
     - 'uses': 'actions/checkout@v2'
     - 'name': 'run-lint'
       'run': >
-        make go-tools go-lint
+        make go-deps go-tools go-lint
   'eslint':
     'runs-on': 'ubuntu-latest'
     'steps':

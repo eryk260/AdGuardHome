@@ -9,17 +9,17 @@ verbose="${VERBOSE:-0}"
 if [ "$verbose" -gt '0' ]
 then
 	set -x
-	v_flag='-v'
+	v_flags='-v'
 
 	if [ "$verbose" -gt '1' ]
 	then
-		x_flag='-x'
+		x_flags='-x'
 	else
-		x_flag=''
+		x_flags=''
 	fi
 else
-	v_flag=''
-	x_flag=''
+	v_flags=''
+	x_flags=''
 fi
 
 set -e -f -u
@@ -27,15 +27,15 @@ set -e -f -u
 race="${RACE:-1}"
 if [ "$race" = '0' ]
 then
-	race_flag=''
+	race_flags=''
 else
-	race_flag='--race'
+	race_flags='--race'
 fi
 
 go="${GO:-go}"
-cover_flag='--coverprofile ./coverage.txt'
-count_flag='--count 1'
+cover_flags='--coverprofile ./coverage.txt'
+count_flags='--count 1'
 
 # Don't use quotes with flag variables because we want an empty space if
 # those aren't set.
-"$go" test $race_flag $count_flag $cover_flag $x_flag $v_flag ./...
+"$go" test $race_flags $count_flags $cover_flags $x_flags $v_flags ./...
