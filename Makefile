@@ -15,7 +15,7 @@ GO = go
 GOPROXY = https://goproxy.cn,https://goproxy.io,direct
 GPG_KEY_PASSPHRASE = not-a-real-password
 NPM = npm
-NPM_FLAGS = --prefix $(CLIENT_DIR)
+NPM_FLAGS = --prefix="./$(CLIENT_DIR)"
 VERBOSE = 0
 VERSION = v0.0.0
 
