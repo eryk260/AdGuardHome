@@ -29,7 +29,7 @@ not_found_msg='
 looks like a binary not found error.
 make sure you have installed the linter binaries using:
 
-	$ make go-install-tools
+	$ make go-tools
 '
 
 not_found() {

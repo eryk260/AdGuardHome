@@ -17,7 +17,7 @@ readonly commit="$COMMIT"
 readonly version="$VERSION"
 
 # For buildx.
-export DOCKER_CLI_EXPERIMENTAL='enabled'
+export BUILDX_NO_DEFAULT_LOAD='true' DOCKER_CLI_EXPERIMENTAL='enabled'
 
 readonly docker_platforms="\
 linux/386,\
@@ -53,7 +53,7 @@ in
 	readonly docker_tags=''
 	;;
 ('development')
-	readonly docker_image_full_name="#{docker_image_name}"
+	readonly docker_image_full_name="${docker_image_name}"
 	readonly docker_tags=''
 	;;
 (*)
