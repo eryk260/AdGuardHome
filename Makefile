@@ -10,7 +10,9 @@ DIST_DIR = dist
 GO = go
 # TODO(a.garipov): Add more default proxies using pipes after update to
 # Go 1.15.
-GOPROXY = https://goproxy.io
+#
+# GOPROXY = https://goproxy.io|https://athens.azurefd.net
+GOPROXY = https://athens.azurefd.net
 GPG_KEY_PASSPHRASE = not-a-real-password
 NPM = npm
 NPM_FLAGS = --prefix $(CLIENT_DIR)

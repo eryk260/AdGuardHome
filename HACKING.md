@@ -70,6 +70,14 @@ The rules are mostly sorted in the alphabetical order.
     func TestType_Method_suffix(t *testing.T) { /* … */ }
     ```
 
+ *  Name parameters in interface definitions:
+
+   ```go
+   type Frobulator interface {
+           Frobulate(f Foo, b Bar) (r Result, err error)
+   }
+   ```
+
  *  Name the deferred errors (e.g. when closing something) `cerr`.
 
  *  No shadowing, since it can often lead to subtle bugs, especially with
