@@ -20,7 +20,7 @@ readonly version="$VERSION"
 export DOCKER_CLI_EXPERIMENTAL='enabled'
 
 readonly docker_platforms="\
-linux/386,
+linux/386,\
 linux/amd64,\
 linux/arm/v6,\
 linux/arm/v7,\

@@ -16,6 +16,7 @@ GOPROXY = https://goproxy.cn,https://goproxy.io,direct
 GPG_KEY_PASSPHRASE = not-a-real-password
 NPM = npm
 NPM_FLAGS = --prefix $(CLIENT_DIR)
+SIGN = 1
 VERBOSE = 0
 VERSION = v0.0.0
 
@@ -27,6 +28,7 @@ ENV = env\
 	GO='$(GO)'\
 	GOPROXY='$(GOPROXY)'\
 	PATH="$$PWD/bin:$$PATH"\
+	SIGN='$(SIGN)'\
 	VERBOSE='$(VERBOSE)'\
 	VERSION='$(VERSION)'\
 
@@ -45,11 +47,11 @@ test: js-test go-test
 # expand to something like "C:/Program Files/Git/usr/bin/sh.exe".
 build-docker: ; $(ENV) "$(SHELL)" ./scripts/build-docker.sh
 
-build-release: deps go-gen
+build-release: deps js-build go-gen
 	$(ENV) "$(SHELL)" ./scripts/build-release.sh
 
 clean: ; $(ENV) "$(SHELL)" ./scripts/clean.sh
-init:  ; git config core.hooksPath ./.githooks
+init:  ; git config core.hooksPath ./scripts/hooks
 
 js-build: ; $(NPM) $(NPM_FLAGS) run build-prod
 js-deps:  ; $(NPM) $(NPM_FLAGS) ci

@@ -15,6 +15,9 @@ then
 	set -x
 fi
 
+# By default, sign the packages, but allow users to skip that step.
+readonly sign="${SIGN:-1}"
+
 # Exit the script if a pipeline fails (-e), prevent accidental filename
 # expansion (-f), and consider undefined variables as errors (-u).
 set -e -f -u
@@ -47,9 +50,13 @@ fi
 log "channel '$channel'"
 log "version '$version'"
 
-# Require the gpg key and passphrase to be set.
-readonly gpg_key_passphrase="$GPG_KEY_PASSPHRASE"
-readonly gpg_key="$GPG_KEY"
+# Require the gpg key and passphrase to be set if the signing is
+# required.
+if [ "$sign" = '1' ]
+then
+	readonly gpg_key_passphrase="$GPG_KEY_PASSPHRASE"
+	readonly gpg_key="$GPG_KEY"
+fi
 
 # The default distribution files directory is dist.
 readonly dist="${DIST:-dist}"
@@ -143,14 +150,17 @@ build() {
 
 	log "$build_output"
 
-	gpg\
-		--default-key "$gpg_key"\
-		--detach-sig\
-		--passphrase "$gpg_key_passphrase"\
-		--pinentry-mode loopback\
-		-q\
-		"$build_output"\
-		;
+	if [ "$sign" = '1' ]
+	then
+		gpg\
+			--default-key "$gpg_key"\
+			--detach-sig\
+			--passphrase "$gpg_key_passphrase"\
+			--pinentry-mode loopback\
+			-q\
+			"$build_output"\
+			;
+	fi
 
 	# Prepare the build directory for archiving.
 	cp ./CHANGELOG.md ./LICENSE.txt ./README.md "$build_dir"
