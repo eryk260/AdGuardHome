@@ -15,7 +15,7 @@ GO = go
 GOPROXY = https://goproxy.cn,https://goproxy.io,direct
 GPG_KEY_PASSPHRASE = not-a-real-password
 NPM = npm
-NPM_FLAGS = --prefix="./$(CLIENT_DIR)"
+NPM_FLAGS = --prefix $(CLIENT_DIR)
 VERBOSE = 0
 VERSION = v0.0.0
 
@@ -50,7 +50,7 @@ clean: ; $(ENV) $(SHELL) ./scripts/clean.sh
 init:  ; git config core.hooksPath ./.githooks
 
 js-build: ; $(NPM) $(NPM_FLAGS) run build-prod
-js-deps:  ; $(NPM) $(NPM_FLAGS) install
+js-deps:  ; $(NPM) $(NPM_FLAGS) ci
 js-lint:  ; $(NPM) $(NPM_FLAGS) run lint
 js-test:  ; $(NPM) $(NPM_FLAGS) run test
 
