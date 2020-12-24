@@ -41,12 +41,14 @@ deps: js-deps go-deps
 lint: js-lint go-lint
 test: js-test go-test
 
-build-docker: ; $(ENV) $(SHELL) ./scripts/build-docker.sh
+# Here and below, keep $(SHELL) in quotes, because on Windows this will
+# expand to something like "C:/Program Files/Git/usr/bin/sh.exe".
+build-docker: ; $(ENV) "$(SHELL)" ./scripts/build-docker.sh
 
 build-release: deps go-gen
-	$(ENV) $(SHELL) ./scripts/build-release.sh
+	$(ENV) "$(SHELL)" ./scripts/build-release.sh
 
-clean: ; $(ENV) $(SHELL) ./scripts/clean.sh
+clean: ; $(ENV) "$(SHELL)" ./scripts/clean.sh
 init:  ; git config core.hooksPath ./.githooks
 
 js-build: ; $(NPM) $(NPM_FLAGS) run build-prod
@@ -54,12 +56,12 @@ js-deps:  ; $(NPM) $(NPM_FLAGS) ci
 js-lint:  ; $(NPM) $(NPM_FLAGS) run lint
 js-test:  ; $(NPM) $(NPM_FLAGS) run test
 
-go-build: ; $(ENV) $(SHELL) ./scripts/go-build.sh
-go-deps:  ; $(ENV) $(SHELL) ./scripts/go-deps.sh
+go-build: ; $(ENV) "$(SHELL)" ./scripts/go-build.sh
+go-deps:  ; $(ENV) "$(SHELL)" ./scripts/go-deps.sh
 go-gen:   ; $(ENV) $(GO) generate ./...
-go-lint:  ; $(ENV) $(SHELL) ./scripts/go-lint.sh
-go-test:  ; $(ENV) $(SHELL) ./scripts/go-test.sh
-go-tools: ; $(ENV) $(SHELL) ./scripts/go-tools.sh
+go-lint:  ; $(ENV) "$(SHELL)" ./scripts/go-lint.sh
+go-test:  ; $(ENV) "$(SHELL)" ./scripts/go-test.sh
+go-tools: ; $(ENV) "$(SHELL)" ./scripts/go-tools.sh
 
 # TODO(a.garipov): Remove the legacy targets once the build
 # infrastructure stops using them.

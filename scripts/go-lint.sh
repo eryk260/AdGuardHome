@@ -107,7 +107,8 @@ ineffassign .
 
 unparam ./...
 
-git ls-files -- '*.go' '*.md' '*.yaml' '*.yml' | xargs misspell --error
+git ls-files -- '*.go' '*.md' '*.yaml' '*.yml' 'Makefile'\
+	| xargs misspell --error
 
 looppointer ./...
 
