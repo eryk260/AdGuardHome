@@ -1,12 +1,14 @@
 #!/bin/sh
 
-# TODO(a.garipov): Redo the multiarch image.
-
 verbose="${VERBOSE:-0}"
 
 if [ "$verbose" -gt '0' ]
 then
 	set -x
+	debug_flags='-D'
+else
+	set +x
+	debug_flags=''
 fi
 
 set -e -f -u
@@ -16,8 +18,8 @@ readonly channel="$CHANNEL"
 readonly commit="$COMMIT"
 readonly version="$VERSION"
 
-# For buildx.
-export BUILDX_NO_DEFAULT_LOAD='true' DOCKER_CLI_EXPERIMENTAL='enabled'
+# Allow users to use sudo.
+readonly sudo_cmd="${SUDO:-}"
 
 readonly docker_platforms="\
 linux/386,\
@@ -63,16 +65,18 @@ in
 	;;
 esac
 
-# Don't use quotes with $docker_tags because we want word splitting and
-# or an empty space if tags are empty.
-docker buildx build\
-	--platform "$docker_platforms"\
-	--build-arg version="$version"\
-	--build-arg channel="$channel"\
-	--build-arg VCS_REF="$commit"\
+# Don't use quotes with $docker_tags and $debug_flags because we want
+# word splitting and or an empty space if tags are empty.
+$sudo_cmd docker\
+	$debug_flags\
+	buildx build\
 	--build-arg BUILD_DATE="$build_date"\
-	$docker_tags\
+	--build-arg CHANNEL="$channel"\
+	--build-arg VCS_REF="$commit"\
+	--build-arg VERSION="$version"\
 	--output "$docker_output"\
+	--platform "$docker_platforms"\
+	$docker_tags\
 	-t "$docker_image_full_name"\
 	-f ./Dockerfile\
 	.

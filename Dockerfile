@@ -1,4 +1,3 @@
-FROM --platform=${BUILDPLATFORM:-linux/amd64} tonistiigi/xx:golang AS xgo
 FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:1.14-alpine as builder
 
 ARG BUILD_DATE
@@ -8,9 +7,8 @@ ARG CHANNEL=release
 
 ENV CGO_ENABLED 0
 ENV GO111MODULE on
-ENV GOPROXY https://goproxy.io
+ENV GOPROXY https://goproxy.cn,https://goproxy.io,direct
 
-COPY --from=xgo / /
 RUN go env
 
 RUN apk --update --no-cache add \
