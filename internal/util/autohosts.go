@@ -33,6 +33,9 @@ type AutoHosts struct {
 	hostsDirs []string          // paths to OS-specific directories with hosts-files
 	watcher   *fsnotify.Watcher // file and directory watcher object
 
+	// onlyWritesChan used to contain only writing events from watcher.
+	onlyWritesChan chan fsnotify.Event
+
 	onChanged onChangedT // notification to other modules
 }
 
@@ -53,6 +56,7 @@ func (a *AutoHosts) notify() {
 // hostsFn: Override default name for the hosts-file (optional)
 func (a *AutoHosts) Init(hostsFn string) {
 	a.table = make(map[string][]net.IP)
+	a.onlyWritesChan = make(chan fsnotify.Event, 2)
 
 	a.hostsFn = "/etc/hosts"
 	if runtime.GOOS == "windows" {
@@ -104,6 +108,7 @@ func (a *AutoHosts) Close() {
 	if a.watcher != nil {
 		_ = a.watcher.Close()
 	}
+	close(a.onlyWritesChan)
 }
 
 // Process returns the list of IP addresses for the hostname or nil if nothing
@@ -268,20 +273,32 @@ func (a *AutoHosts) load(table map[string][]net.IP, tableRev map[string][]string
 	}
 }
 
+// onlyWrites is a filter for (*fsnotify.Watcher).Events.
+func (a *AutoHosts) onlyWrites() {
+	for event := range a.watcher.Events {
+		if event.Op&fsnotify.Write == fsnotify.Write {
+			a.onlyWritesChan <- event
+		}
+	}
+}
+
 // Receive notifications from fsnotify package
 func (a *AutoHosts) watcherLoop() {
+	go a.onlyWrites()
 	for {
 		select {
-		case event, ok := <-a.watcher.Events:
+		case event, ok := <-a.onlyWritesChan:
 			if !ok {
 				return
 			}
 
+			// Assume that we sometimes have the same event occurred
+			// several times.
 			repeat := true
 			for repeat {
 				select {
-				case <-a.watcher.Events:
-					// Skip this duplicating event
+				case _, ok = <-a.onlyWritesChan:
+					repeat = ok
 				default:
 					repeat = false
 				}
