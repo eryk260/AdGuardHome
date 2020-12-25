@@ -1,26 +1,29 @@
 #!/bin/sh
 
-# AdGuardHome build script.
+# AdGuard Home Build Script
 #
 # The commentary in this file is written with the assumption that the
 # reader only has superficial knowledge of the POSIX shell language and
 # alike.  Experienced readers may find it overly verbose.
 
-# The default verbosity level is 0.  Show every command that is run if
-# the caller requested verbosity level greater than 1.  Also show
-# subcommands if the requested verbosity level is greater than 2.
-# Otherwise, do nothing.
+# The default verbosity level is 0.  Show every command that is run and
+# every package that is processed if the caller requested verbosity
+# level greater than 0.  Also show subcommands if the requested
+# verbosity level is greater than 1.  Otherwise, do nothing.
 verbose="${VERBOSE:-0}"
 if [ "$verbose" -gt '1' ]
 then
 	set -x
+	readonly v_flags='-v'
 	readonly x_flags='-x'
 elif [ "$verbose" -gt '0' ]
 then
 	set -x
+	readonly v_flags='-v'
 	readonly x_flags=''
 else
 	set +x
+	readonly v_flags=''
 	readonly x_flags=''
 fi
 
@@ -84,7 +87,11 @@ fi
 # Don't use cgo.  Use modules.
 export CGO_ENABLED='0' GO111MODULE='on'
 
-readonly build_flags="${BUILD_FLAGS:-$out_flags $par_flags $x_flags}"
+readonly build_flags="${BUILD_FLAGS:-$out_flags $par_flags\
+	$v_flags $x_flags}"
 
-# Don't use quotes with $build_flags to get word splitting.
+# Don't use quotes with flag variables to get word splitting.
+"$go" generate $v_flags $x_flags ./...
+
+# Don't use quotes with flag variables to get word splitting.
 "$go" build --ldflags "$ldflags" $build_flags

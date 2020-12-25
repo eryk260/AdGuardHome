@@ -11,10 +11,8 @@ then
 	set -x
 fi
 
-exit_on_error="${EXITONERROR:-1}"
-
-# Set $EXITONERROR to zero to see all errors.
-if [ "$exitonerror" = '0' ]
+# Set $EXIT_ON_ERROR to zero to see all errors.
+if [ "${EXIT_ON_ERROR:-1}" = '0' ]
 then
 	set +e
 else

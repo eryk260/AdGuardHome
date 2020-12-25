@@ -6,18 +6,18 @@ verbose="${VERBOSE:-0}"
 #   0 = Don't print anything except for errors.
 #   1 = Print commands, but not nested commands.
 #   2 = Print everything.
-if [ "$verbose" -gt '0' ]
+if [ "$verbose" -gt '1' ]
 then
 	set -x
 	v_flags='-v'
-
-	if [ "$verbose" -gt '1' ]
-	then
-		x_flags='-x'
-	else
-		x_flags=''
-	fi
+	x_flags='-x'
+elif [ "$verbose" -gt '0' ]
+then
+	set -x
+	v_flags='-v'
+	x_flags=''
 else
+	set +x
 	v_flags=''
 	x_flags=''
 fi

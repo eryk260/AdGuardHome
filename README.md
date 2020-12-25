@@ -58,7 +58,7 @@ It operates as a DNS server that re-routes tracking domains to a "black hole," t
     * [Reporting issues](#reporting-issues)
     * [Help with translations](#translate)
     * [Other](#help-other)
-* [Projects that use AdGuardHome](#uses)
+* [Projects that use AdGuard Home](#uses)
 * [Acknowledgments](#acknowledgments)
 * [Privacy](#privacy)
 
@@ -180,7 +180,7 @@ Open Terminal and execute these commands:
 ```bash
 git clone https://github.com/AdguardTeam/AdGuardHome
 cd AdGuardHome
-make deps build
+make
 ```
 
 Check the [`Makefile`](https://github.com/AdguardTeam/AdGuardHome/blob/master/Makefile) to learn about other commands.
@@ -190,11 +190,11 @@ In order to do this, specify `GOOS` and `GOARCH` env variables before running ma
 
 For example:
 ```
-env GOOS='linux' GOARCH='arm64' make build
+env GOOS='linux' GOARCH='arm64' make
 ```
 Or:
 ```
-make GOOS='linux' GOARCH='arm64' build
+make GOOS='linux' GOARCH='arm64'
 ```
 
 #### Preparing release
@@ -299,7 +299,7 @@ Here's what you can also do to contribute:
 4. Actualize the list of vetted *blocklists*. It it can be found in [client/src/helpers/filters/filters.json](https://github.com/AdguardTeam/AdGuardHome/blob/master/client/src/helpers/filters/filters.json).
 
 <a id="uses"></a>
-## Projects that use AdGuardHome
+## Projects that use AdGuard Home
 
 * Python library (https://github.com/frenck/python-adguardhome)
 * Hass.io add-on (https://github.com/hassio-addons/addon-adguard-home)
@@ -325,7 +325,7 @@ This software wouldn't have been possible without:
    * And many more node.js packages.
  * [whotracks.me data](https://github.com/cliqz-oss/whotracks.me)
 
-You might have seen that [CoreDNS](https://coredns.io) was mentioned here before — we've stopped using it in AdGuardHome. While we still use it on our servers for [AdGuard DNS](https://adguard.com/adguard-dns/overview.html) service, it seemed like an overkill for Home as it impeded with Home features that we plan to implement.
+You might have seen that [CoreDNS](https://coredns.io) was mentioned here before — we've stopped using it in AdGuard Home. While we still use it on our servers for [AdGuard DNS](https://adguard.com/adguard-dns/overview.html) service, it seemed like an overkill for Home as it impeded with Home features that we plan to implement.
 
 For a full list of all node.js packages in use, please take a look at [client/package.json](https://github.com/AdguardTeam/AdGuardHome/blob/master/client/package.json) file.
 

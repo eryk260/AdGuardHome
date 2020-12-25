@@ -1,16 +1,19 @@
 #!/bin/sh
 
-# AdGuardHome release build script.
+# AdGuard Home Release Script
 #
 # The commentary in this file is written with the assumption that the
 # reader only has superficial knowledge of the POSIX shell language and
 # alike.  Experienced readers may find it overly verbose.
 
 # The default verbosity level is 0.  Show every command that is run if
-# the caller requested verbosity level greater than 1.  Otherwise, do
+# the caller requested verbosity level greater than 0.  Otherwise, do
 # nothing.
+#
+# The level of verbosity for the build script is the same minus one
+# level.  See below in build().
 readonly verbose="${VERBOSE:-0}"
-if [ "$verbose" -gt '1' ]
+if [ "$verbose" -gt '0' ]
 then
 	set -x
 fi
@@ -32,7 +35,7 @@ log() {
 	fi
 }
 
-log 'starting to build AdGuardHome release'
+log 'starting to build AdGuard Home release'
 
 # Require the channel to be set.  Additional validation is performed
 # later by go-build.sh.
@@ -40,9 +43,9 @@ readonly channel="$CHANNEL"
 
 # Check VERSION against the default value from the Makefile.  If it is
 # that, use the version calculation script.
-if [ "${VERSION:-}" = 'v0.0.0' ]
+if [ "${VERSION:-}" = 'v0.0.0' -o "${VERSION:-}" = '' ]
 then
-	readonly version="$(sh ./scripts/version.sh)"
+	readonly version="$(sh ./scripts/make/version.sh)"
 else
 	readonly version="$VERSION"
 fi
@@ -59,7 +62,7 @@ then
 fi
 
 # The default distribution files directory is dist.
-readonly dist="${DIST:-dist}"
+readonly dist="${DIST_DIR:-dist}"
 
 # Give users the ability to override the go command from environment.
 # For example, to build two releases with two different Go versions and
